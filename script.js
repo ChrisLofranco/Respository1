@@ -384,7 +384,7 @@
         if (q.indexOf(intent.keys[j]) !== -1) return intent.reply;
       }
     }
-    return "Sorry, I don't have an answer for that one. Your best bet is to reach the owners, Tony and Jason, directly — give them a call at 416-275-9479, 647-668-3901, or 647-326-3296 and they'll be glad to help.";
+    return "Sorry, I don't have an answer for that one. Your best bet is to reach us directly — give us a call at 416-275-9479 or 647-668-3901, or reach Nick at 647-326-3296, and we'll be glad to help.";
   }
 
   function handleUserMessage(text) {

@@ -7,6 +7,12 @@
   <meta name="description" content="Woodbine Paving — residential and commercial asphalt paving, line painting, and commercial snow removal across the Greater Toronto Area. Owner-operated by Tony &amp; Jason. Call 416-275-9479." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="stylesheet" href="styles.css" />
+  <script>
+    // Always start on the home page (top): ignore any lingering #section hash
+    // in the URL so the page never auto-jumps to a section on load.
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+  </script>
 </head>
 <body>
   <!-- ============ HEADER ============ -->
