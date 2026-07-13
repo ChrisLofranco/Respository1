@@ -293,11 +293,11 @@
     },
     {
       keys: ["how much", "price", "pricing", "cost", "charge", "quote", "rate", "per square", "per sq", "expensive", "$", "ballpark"],
-      reply: "As a rough guide, asphalt runs about $3.50 per square foot — so length × width gives your square footage for a ballpark. It's only an estimate, though; the real price depends on your site. Try the Driveway Visualizer on this page to get a feel for your size, and Tony or Jason will confirm an exact quote on-site."
+      reply: "Every driveway is a bit different, so pricing depends on your size, site, and prep — there's no one-size number. For a quick ballpark, try the Driveway Visualizer on this page: enter your size and it shows an estimated range. For a firm price, tap “Get a real quote” or call and Tony or Jason will confirm on-site."
     },
     {
       keys: ["estimator", "estimate", "calculator", "visualizer", "the tool", "how do i use", "measure"],
-      reply: "Scroll up to the “Driveway Visualizer & rough estimate” section — enter your driveway's length and width, pick straight or curved edges, and it instantly shows a shape preview plus an estimated price (about $3.50/sq ft). For a firm number, tap “Get a real quote” and we'll come take a look."
+      reply: "Scroll up to the “Driveway Visualizer & rough estimate” section — enter your driveway's length and width, pick straight or curved edges, and it instantly shows a shape preview plus an estimated price range. For a firm number, tap “Get a real quote” and we'll come take a look."
     },
     {
       keys: ["snow", "plow", "plowing", "salt", "winter clear", "de-ice", "deice"],
