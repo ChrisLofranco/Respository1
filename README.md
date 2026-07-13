@@ -36,13 +36,12 @@ These are intentionally mocked on the front end:
 2. **Chatbot** — the widget answers common questions with simple keyword rules. Replace with a real AI chatbot backend (**Tidio, Intercom**, or a custom bot) for open-ended conversations and live handoff.
 3. **Reviews** — swap the placeholder cards for a live **Google Reviews / HomeStars** widget so real, current 4★+ reviews display automatically.
 
-## Drop in real assets
+## Images
 
-Search the code for `PLACEHOLDER` / `placeholder-media`:
-
-- **Logo** — `.brand-logo` blocks in the header/footer (and the guide).
-- **Hero photo** — `.hero-media` (~1600×900).
-- **Gallery** — six `.gallery-item` slots (~800×600). Sizes/positions are set so real photos drop in without layout changes.
+Real company assets (logo, hero, and an 8-tile gallery of driveways + equipment)
+live in `images/`. Each slot loads its file and falls back to a labeled placeholder
+if the file is missing, so photos can be swapped by name without touching layout.
+See `images/README.md` for the file map and how to swap/add photos.
 
 ## Company details
 

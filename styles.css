@@ -166,7 +166,8 @@ img { max-width: 100%; display: block; }
   color: #fff;
   overflow: hidden;
 }
-.hero-media {
+/* Two-class selector so it wins over .placeholder-media's position:relative */
+.hero .hero-media {
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -544,7 +545,24 @@ fieldset.field legend { padding: 0; margin-bottom: 8px; }
   border-radius: var(--radius-lg);
   overflow: hidden;
   border: 1px solid var(--line-dark);
+  margin: 0;
+  position: relative;
 }
+.gallery-cap {
+  display: none;
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  z-index: 2;
+  padding: 22px 14px 12px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.92rem;
+  letter-spacing: 0.01em;
+  background: linear-gradient(to top, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0) 100%);
+}
+.gallery-item.has-img .gallery-cap { display: block; }
+.gallery-item .media-img { transition: transform 0.4s ease; }
+.gallery-item.has-img:hover .media-img { transform: scale(1.05); }
 
 /* ---------- Reviews ---------- */
 .review-card { background: var(--charcoal); border-color: var(--line-dark); color: #fff; }

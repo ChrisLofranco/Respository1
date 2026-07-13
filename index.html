@@ -41,7 +41,7 @@
   <section class="hero">
     <!-- Drop images/hero.jpg to replace the placeholder background automatically -->
     <div class="hero-media placeholder-media" aria-hidden="true">
-      <img src="images/hero.jpg" alt="" class="media-img"
+      <img src="images/hero.webp" alt="" class="media-img"
            onload="this.parentElement.classList.add('has-img')" onerror="this.remove()" />
       <span class="placeholder-tag">HERO PHOTO — 1600&times;900 (freshly paved driveway)</span>
     </div>
@@ -294,36 +294,51 @@
     <div class="container">
       <header class="section-head">
         <p class="kicker">Our work</p>
-        <h2>Recent jobs</h2>
-        <p class="section-lede">Photo slots are ready — drop in real job photos and they'll fit the grid.</p>
+        <h2>Recent jobs &amp; equipment</h2>
+        <p class="section-lede">Real driveways we've paved across the GTA, plus the crew and equipment that get it done.</p>
       </header>
 
-      <!-- Drop images/gallery-1.jpg … gallery-6.jpg to fill these slots automatically -->
       <div class="grid gallery-grid">
-        <div class="placeholder-media gallery-item">
-          <img src="images/gallery-1.jpg" alt="Finished asphalt driveway" class="media-img" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()" />
+        <figure class="placeholder-media gallery-item">
+          <img src="images/gallery-1.jpg" alt="Finished residential asphalt driveway with fresh edges" class="media-img" onload="this.closest('.gallery-item').classList.add('has-img')" onerror="this.remove()" />
+          <figcaption class="gallery-cap">Residential driveway</figcaption>
           <span class="placeholder-tag">DRIVEWAY PHOTO 1 — 800&times;600</span>
-        </div>
-        <div class="placeholder-media gallery-item">
-          <img src="images/gallery-2.jpg" alt="Finished asphalt driveway" class="media-img" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()" />
+        </figure>
+        <figure class="placeholder-media gallery-item">
+          <img src="images/gallery-2.jpg" alt="Newly paved asphalt driveway" class="media-img" onload="this.closest('.gallery-item').classList.add('has-img')" onerror="this.remove()" />
+          <figcaption class="gallery-cap">Fresh asphalt driveway</figcaption>
           <span class="placeholder-tag">DRIVEWAY PHOTO 2 — 800&times;600</span>
-        </div>
-        <div class="placeholder-media gallery-item">
-          <img src="images/gallery-3.jpg" alt="Commercial parking lot paving" class="media-img" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()" />
-          <span class="placeholder-tag">COMMERCIAL LOT — 800&times;600</span>
-        </div>
-        <div class="placeholder-media gallery-item">
-          <img src="images/gallery-4.jpg" alt="Line painting on a commercial lot" class="media-img" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()" />
-          <span class="placeholder-tag">LINE PAINTING — 800&times;600</span>
-        </div>
-        <div class="placeholder-media gallery-item">
-          <img src="images/gallery-5.jpg" alt="Woodbine Paving crew and equipment on-site" class="media-img" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()" />
-          <span class="placeholder-tag">CREW / EQUIPMENT — 800&times;600</span>
-        </div>
-        <div class="placeholder-media gallery-item">
-          <img src="images/gallery-6.jpg" alt="Clean finished asphalt edge" class="media-img" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()" />
-          <span class="placeholder-tag">FINISHED EDGE — 800&times;600</span>
-        </div>
+        </figure>
+        <figure class="placeholder-media gallery-item">
+          <img src="images/gallery-3.webp" alt="Finished driveway compacted with a roller" class="media-img" onload="this.closest('.gallery-item').classList.add('has-img')" onerror="this.remove()" />
+          <figcaption class="gallery-cap">Compacted &amp; finished</figcaption>
+          <span class="placeholder-tag">DRIVEWAY PHOTO 3 — 800&times;600</span>
+        </figure>
+        <figure class="placeholder-media gallery-item">
+          <img src="images/gallery-4.webp" alt="Freshly paved asphalt laneway between houses" class="media-img" onload="this.closest('.gallery-item').classList.add('has-img')" onerror="this.remove()" />
+          <figcaption class="gallery-cap">Laneway paving</figcaption>
+          <span class="placeholder-tag">LANEWAY — 800&times;600</span>
+        </figure>
+        <figure class="placeholder-media gallery-item">
+          <img src="images/gallery-5.jpg" alt="Resurfaced asphalt driveway" class="media-img" onload="this.closest('.gallery-item').classList.add('has-img')" onerror="this.remove()" />
+          <figcaption class="gallery-cap">Driveway resurfacing</figcaption>
+          <span class="placeholder-tag">DRIVEWAY PHOTO 4 — 800&times;600</span>
+        </figure>
+        <figure class="placeholder-media gallery-item">
+          <img src="images/gallery-6.jpeg" alt="Finished asphalt driveway alongside a home" class="media-img" onload="this.closest('.gallery-item').classList.add('has-img')" onerror="this.remove()" />
+          <figcaption class="gallery-cap">Driveway replacement</figcaption>
+          <span class="placeholder-tag">DRIVEWAY PHOTO 5 — 800&times;600</span>
+        </figure>
+        <figure class="placeholder-media gallery-item">
+          <img src="images/gallery-7.webp" alt="Fleet of tractors and plows for commercial snow removal" class="media-img" onload="this.closest('.gallery-item').classList.add('has-img')" onerror="this.remove()" />
+          <figcaption class="gallery-cap">Snow removal fleet</figcaption>
+          <span class="placeholder-tag">SNOW EQUIPMENT — 800&times;600</span>
+        </figure>
+        <figure class="placeholder-media gallery-item">
+          <img src="images/gallery-8.webp" alt="Woodbine Paving trucks and paving equipment" class="media-img" onload="this.closest('.gallery-item').classList.add('has-img')" onerror="this.remove()" />
+          <figcaption class="gallery-cap">Our paving fleet</figcaption>
+          <span class="placeholder-tag">PAVING EQUIPMENT — 800&times;600</span>
+        </figure>
       </div>
     </div>
   </section>
