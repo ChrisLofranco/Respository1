@@ -230,8 +230,10 @@
   }
 
   /* =========================================================
-     3. MOCK LIVE CHAT WIDGET
-     Front-end only. Connect Tidio / Intercom / etc. before launch.
+     3. AUTO-RESPONDING CHATBOT (front-end demo)
+     Rule-based intent matching so it answers common pre-sale
+     questions automatically. Swap for a real AI chatbot backend
+     (Tidio, Intercom, custom) before launch.
      ========================================================= */
   var chatToggle = document.getElementById("chatToggle");
   var chatPanel = document.getElementById("chatPanel");
@@ -239,6 +241,7 @@
   var chatForm = document.getElementById("chatForm");
   var chatInput = document.getElementById("chatInput");
   var chatBody = document.getElementById("chatBody");
+  var chatQuick = document.getElementById("chatQuick");
 
   function openChat() {
     if (!chatPanel) return;
@@ -268,20 +271,73 @@
     chatBody.scrollTop = chatBody.scrollHeight;
   }
 
+  // Rule-based intents. First match wins; falls back to a call-to-action.
+  var CHAT_INTENTS = [
+    {
+      keys: ["price", "pricing", "cost", "charge", "quote", "estimate", "how much", "$", "rate"],
+      reply: "Every job is priced on-site, but you can get a ballpark right now: use the driveway estimator on this page for a rough price range. For a real quote, tap “Get a rough estimate” or call 416-275-9479 and Tony or Jason will take a look."
+    },
+    {
+      keys: ["area", "areas", "where", "serve", "servicing", "location", "toronto", "mississauga", "vaughan", "brampton", "markham", "scarborough", "gta", "near me"],
+      reply: "We're based in Brampton and pave right across the Greater Toronto Area — Toronto, Vaughan, Mississauga, Markham, Scarborough, Etobicoke, Oakville, Richmond Hill, Ajax, Pickering and more. Tell me your city and I can confirm."
+    },
+    {
+      keys: ["service", "services", "offer", "do you do", "what do you", "residential", "commercial", "line paint", "snow", "plow", "driveway", "parking"],
+      reply: "We handle residential paving, commercial paving, commercial snow removal, and line painting — all asphalt. Which one are you looking into?"
+    },
+    {
+      keys: ["hour", "hours", "open", "time", "when are you", "days"],
+      reply: "We're reachable 7 days a week, 7am–7pm. Call 416-275-9479 anytime in that window."
+    },
+    {
+      keys: ["phone", "call", "number", "contact", "reach", "talk to", "email"],
+      reply: "Easiest way to reach us is by phone: 416-275-9479, 7 days a week, 7am–7pm. You can also fill out the quick quote form on this page."
+    },
+    {
+      keys: ["book", "schedule", "timeline", "how long", "when can", "start", "availability", "wait"],
+      reply: "Timing depends on crew routing and the size of the job, so we don't lock in a date until we've seen the site. Send us the details through the quote form or call 416-275-9479 and we'll walk you through next steps."
+    },
+    {
+      keys: ["interlock", "sealcoat", "seal coat", "sealing", "paver", "concrete", "stone"],
+      reply: "We specialize in asphalt — driveways, lots, line painting, and snow removal. That focus is exactly why the asphalt work comes out clean. Happy to talk through your asphalt project any time."
+    },
+    {
+      keys: ["owner", "who", "tony", "jason", "experience", "trust", "licensed", "insured"],
+      reply: "The company is owner-operated — Tony and Jason are hands-on and on-site for every job, from grading and base prep to the finished surface."
+    }
+  ];
+
+  function botReply(text) {
+    var q = text.toLowerCase();
+    for (var i = 0; i < CHAT_INTENTS.length; i++) {
+      var intent = CHAT_INTENTS[i];
+      for (var j = 0; j < intent.keys.length; j++) {
+        if (q.indexOf(intent.keys[j]) !== -1) return intent.reply;
+      }
+    }
+    return "Good question — the fastest way to get that answered is to call Tony or Jason at 416-275-9479, or leave your details on the quote form and we'll follow up. You can also ask me about services, service area, pricing, or hours.";
+  }
+
+  function handleUserMessage(text) {
+    text = (text || "").trim();
+    if (!text) return;
+    addMsg(text, "chat-out");
+    if (chatQuick) chatQuick.style.display = "none"; // hide chips after first question
+    setTimeout(function () { addMsg(botReply(text), "chat-in"); }, 550);
+  }
+
   if (chatForm) {
     chatForm.addEventListener("submit", function (e) {
       e.preventDefault();
-      var text = (chatInput.value || "").trim();
-      if (!text) return;
-      addMsg(text, "chat-out");
+      var text = chatInput.value;
       chatInput.value = "";
-      // canned auto-reply (demo). Real replies come from the chat backend.
-      setTimeout(function () {
-        addMsg(
-          "Thanks for reaching out! For the fastest answer, call Tony or Jason at 416-275-9479 — or leave your number and we'll follow up.",
-          "chat-in"
-        );
-      }, 700);
+      handleUserMessage(text);
+    });
+  }
+
+  if (chatQuick) {
+    chatQuick.querySelectorAll(".chat-chip").forEach(function (chip) {
+      chip.addEventListener("click", function () { handleUserMessage(chip.textContent); });
     });
   }
 })();

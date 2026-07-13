@@ -22,17 +22,18 @@ python3 -m http.server 8000
 
 - **Driveway visualizer & estimator** — enter length/width + edge style (straight/curved); shows an SVG shape preview and a rough **price range** (clearly labeled an estimate, not a quote). Asphalt only.
 - **Multi-step lead form** — service → size → timeline → contact, with a progress bar.
-- **Mock live chat widget** — front-end only.
+- **Auto-responding chatbot** — front-end demo that answers common pre-sale questions (pricing, service area, services, hours) via keyword intents, with quick-reply chips.
 - **Unified GTA service-area section** — one combined list, not per-city pages.
 - **Downloadable maintenance guide** — season/city-neutral title.
 - **Reviews section** — placeholder cards (4★+ only) paraphrasing common themes.
+- **Drop-in image slots** — logo, hero, and gallery load real files from `images/` and fall back to labeled placeholders until they're added (see `images/README.md`).
 
 ## Before launch — wire these up
 
 These are intentionally mocked on the front end:
 
 1. **Lead form** (`script.js`) — currently logs to console only. Connect it to email/CRM or a form endpoint (Formspree, Netlify Forms, your backend, etc.).
-2. **Live chat** — replace the mock widget with a real provider (**Tidio, Intercom**, or similar).
+2. **Chatbot** — the widget answers common questions with simple keyword rules. Replace with a real AI chatbot backend (**Tidio, Intercom**, or a custom bot) for open-ended conversations and live handoff.
 3. **Reviews** — swap the placeholder cards for a live **Google Reviews / HomeStars** widget so real, current 4★+ reviews display automatically.
 
 ## Drop in real assets

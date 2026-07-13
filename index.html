@@ -13,8 +13,10 @@
   <header class="site-header" id="top">
     <div class="container header-inner">
       <a href="#top" class="brand" aria-label="Woodbine Paving home">
-        <!-- LOGO PLACEHOLDER: drop real logo (SVG/PNG ~200x60) into img.brand-logo -->
-        <span class="brand-logo placeholder-logo" role="img" aria-label="Woodbine Paving logo placeholder">
+        <!-- Drop images/logo.png to replace the text fallback automatically -->
+        <span class="brand-logo placeholder-logo" role="img" aria-label="Woodbine Paving logo">
+          <img src="images/logo.png" alt="Woodbine Paving" class="brand-logo-img"
+               onload="this.closest('.brand-logo').classList.add('has-img')" onerror="this.remove()" />
           <span class="brand-mark">WP</span>
           <span class="brand-text">Woodbine&nbsp;Paving</span>
         </span>
@@ -37,16 +39,19 @@
 
   <!-- ============ HERO ============ -->
   <section class="hero">
-    <!-- HERO IMAGE PLACEHOLDER: replace .hero-media background with a real 1600x900 job photo -->
+    <!-- Drop images/hero.jpg to replace the placeholder background automatically -->
     <div class="hero-media placeholder-media" aria-hidden="true">
+      <img src="images/hero.jpg" alt="" class="media-img"
+           onload="this.parentElement.classList.add('has-img')" onerror="this.remove()" />
       <span class="placeholder-tag">HERO PHOTO — 1600&times;900 (freshly paved driveway)</span>
     </div>
     <div class="container hero-content">
-      <p class="eyebrow">Owner-operated &bull; Brampton, ON &bull; Serving the GTA</p>
-      <h1>Smooth, straight asphalt.<br />Poured by the guys who own the company.</h1>
+      <p class="eyebrow">Brampton, ON &bull; Serving the Greater Toronto Area</p>
+      <h1>Asphalt driveways &amp; lots,<br />done right the first time.</h1>
       <p class="hero-sub">
-        Tony and Jason are on-site for every job — residential driveways, commercial lots,
-        line painting, and winter snow removal across the Greater Toronto Area.
+        Residential driveways, commercial lots, line painting, and winter snow removal
+        across the GTA. We're asphalt specialists — and owners Tony and Jason are
+        hands-on and on-site for every job, start to finish.
       </p>
       <div class="hero-actions">
         <a href="#estimator" class="btn btn-red btn-lg">Get a rough estimate</a>
@@ -293,14 +298,32 @@
         <p class="section-lede">Photo slots are ready — drop in real job photos and they'll fit the grid.</p>
       </header>
 
-      <!-- GALLERY PLACEHOLDERS: replace each .placeholder-media with a real ~800x600 photo -->
+      <!-- Drop images/gallery-1.jpg … gallery-6.jpg to fill these slots automatically -->
       <div class="grid gallery-grid">
-        <div class="placeholder-media gallery-item"><span class="placeholder-tag">DRIVEWAY PHOTO 1 — 800&times;600</span></div>
-        <div class="placeholder-media gallery-item"><span class="placeholder-tag">DRIVEWAY PHOTO 2 — 800&times;600</span></div>
-        <div class="placeholder-media gallery-item"><span class="placeholder-tag">COMMERCIAL LOT — 800&times;600</span></div>
-        <div class="placeholder-media gallery-item"><span class="placeholder-tag">LINE PAINTING — 800&times;600</span></div>
-        <div class="placeholder-media gallery-item"><span class="placeholder-tag">CREW ON-SITE — 800&times;600</span></div>
-        <div class="placeholder-media gallery-item"><span class="placeholder-tag">FINISHED EDGE — 800&times;600</span></div>
+        <div class="placeholder-media gallery-item">
+          <img src="images/gallery-1.jpg" alt="Finished asphalt driveway" class="media-img" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()" />
+          <span class="placeholder-tag">DRIVEWAY PHOTO 1 — 800&times;600</span>
+        </div>
+        <div class="placeholder-media gallery-item">
+          <img src="images/gallery-2.jpg" alt="Finished asphalt driveway" class="media-img" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()" />
+          <span class="placeholder-tag">DRIVEWAY PHOTO 2 — 800&times;600</span>
+        </div>
+        <div class="placeholder-media gallery-item">
+          <img src="images/gallery-3.jpg" alt="Commercial parking lot paving" class="media-img" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()" />
+          <span class="placeholder-tag">COMMERCIAL LOT — 800&times;600</span>
+        </div>
+        <div class="placeholder-media gallery-item">
+          <img src="images/gallery-4.jpg" alt="Line painting on a commercial lot" class="media-img" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()" />
+          <span class="placeholder-tag">LINE PAINTING — 800&times;600</span>
+        </div>
+        <div class="placeholder-media gallery-item">
+          <img src="images/gallery-5.jpg" alt="Woodbine Paving crew and equipment on-site" class="media-img" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()" />
+          <span class="placeholder-tag">CREW / EQUIPMENT — 800&times;600</span>
+        </div>
+        <div class="placeholder-media gallery-item">
+          <img src="images/gallery-6.jpg" alt="Clean finished asphalt edge" class="media-img" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()" />
+          <span class="placeholder-tag">FINISHED EDGE — 800&times;600</span>
+        </div>
       </div>
     </div>
   </section>
@@ -383,6 +406,8 @@
     <div class="container footer-inner">
       <div class="footer-col">
         <span class="brand-logo placeholder-logo footer-logo">
+          <img src="images/logo.png" alt="Woodbine Paving" class="brand-logo-img"
+               onload="this.closest('.brand-logo').classList.add('has-img')" onerror="this.remove()" />
           <span class="brand-mark">WP</span>
           <span class="brand-text">Woodbine&nbsp;Paving</span>
         </span>
@@ -416,22 +441,28 @@
       <span class="chat-toggle-label">Chat with us</span>
     </button>
 
-    <section class="chat-panel" id="chatPanel" hidden aria-label="Live chat (demo)">
+    <section class="chat-panel" id="chatPanel" hidden aria-label="Woodbine Paving assistant">
       <header class="chat-head">
         <div>
-          <strong>Woodbine Paving</strong>
-          <span class="chat-status">Typically replies during 7am–7pm</span>
+          <strong>Woodbine Assistant</strong>
+          <span class="chat-status"><span class="chat-dot" aria-hidden="true"></span> Automated &bull; instant answers</span>
         </div>
         <button class="chat-close" id="chatClose" aria-label="Close chat">&times;</button>
       </header>
       <div class="chat-body" id="chatBody">
-        <div class="chat-msg chat-in">Hey! 👋 Quick questions about your driveway or lot? Ask away.</div>
+        <div class="chat-msg chat-in">Hi! 👋 I'm the Woodbine Paving assistant. Ask me about services, service area, pricing, or hours — or tap a question below.</div>
+      </div>
+      <div class="chat-quick" id="chatQuick">
+        <button type="button" class="chat-chip">What do you charge?</button>
+        <button type="button" class="chat-chip">Do you serve my area?</button>
+        <button type="button" class="chat-chip">What services do you offer?</button>
+        <button type="button" class="chat-chip">What are your hours?</button>
       </div>
       <form class="chat-form" id="chatForm">
-        <input type="text" id="chatInput" placeholder="Type a message…" autocomplete="off" aria-label="Your message" />
+        <input type="text" id="chatInput" placeholder="Type your question…" autocomplete="off" aria-label="Your message" />
         <button type="submit" class="btn btn-red">Send</button>
       </form>
-      <p class="chat-demo-note">Demo only — connect a real chat backend (Tidio, Intercom, etc.) before launch.</p>
+      <p class="chat-demo-note">Demo chatbot — answers common questions automatically. Connect an AI chatbot backend (e.g. Tidio, Intercom, or a custom bot) before launch.</p>
     </section>
   </div>
 
