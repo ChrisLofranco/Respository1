@@ -290,7 +290,7 @@
     },
     {
       keys: ["how much", "price", "pricing", "cost", "charge", "quote", "rate", "per square", "per sq", "expensive", "$", "ballpark"],
-      reply: "We estimate asphalt at about $3.50 per square foot: length × width gives your square footage, then × $3.50 is your ballpark. Example: a 40 × 16 ft driveway is 640 sq ft, so roughly $2,240. Try the Driveway Visualizer on this page for your exact size — it's an estimate, and Tony or Jason confirm the final price on-site."
+      reply: "As a rough guide, asphalt runs about $3.50 per square foot — so length × width gives your square footage for a ballpark. It's only an estimate, though; the real price depends on your site. Try the Driveway Visualizer on this page to get a feel for your size, and Tony or Jason will confirm an exact quote on-site."
     },
     {
       keys: ["estimator", "estimate", "calculator", "visualizer", "the tool", "how do i use", "measure"],
