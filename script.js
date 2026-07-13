@@ -384,7 +384,7 @@
         if (q.indexOf(intent.keys[j]) !== -1) return intent.reply;
       }
     }
-    return "I might not have that exact answer, but Tony or Jason will — give us a call at 416-275-9479 (or 647-668-3901 / 647-326-3296). I can also point you to our services, service area, hours, or booking an estimate.";
+    return "Sorry, I don't have an answer for that one. Your best bet is to reach the owners, Tony and Jason, directly — give them a call at 416-275-9479, 647-668-3901, or 647-326-3296 and they'll be glad to help.";
   }
 
   function handleUserMessage(text) {
