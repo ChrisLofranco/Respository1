@@ -27,6 +27,9 @@
 
 * { box-sizing: border-box; }
 
+/* Ensure the hidden attribute always wins over display rules (e.g. .btn) */
+[hidden] { display: none !important; }
+
 html { scroll-behavior: smooth; }
 
 body {
@@ -83,7 +86,7 @@ img { max-width: 100%; display: block; }
 }
 .btn:active { transform: translateY(1px); }
 .btn-lg { padding: 0.9em 1.6em; font-size: 1.05rem; }
-.btn-block { width: 100%; }
+.btn-block { width: 100%; white-space: normal; }
 
 .btn-red { background: var(--red); color: #fff; border-color: var(--red); }
 .btn-red:hover { background: var(--red-dark); border-color: var(--red-dark); }
@@ -321,6 +324,10 @@ img { max-width: 100%; display: block; }
   gap: 30px;
   align-items: start;
 }
+/* Let grid columns shrink below their content's intrinsic width on mobile
+   (defeats the default min-width:auto that otherwise forces horizontal zoom-out) */
+.estimator-controls,
+.estimator-preview { min-width: 0; }
 .estimator-controls {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -398,6 +405,7 @@ fieldset.field legend { padding: 0; margin-bottom: 8px; }
 .estimator-preview { position: sticky; top: 90px; }
 .preview-frame {
   position: relative;
+  min-width: 0;
   background: #fff;
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
@@ -417,7 +425,7 @@ fieldset.field legend { padding: 0; margin-bottom: 8px; }
   border-radius: 5px;
   z-index: 2;
 }
-#drivewaySvg { width: 100%; height: auto; display: block; border-radius: 10px; }
+#drivewaySvg { width: 100%; max-width: 100%; height: auto; display: block; border-radius: 10px; }
 .svg-ground { fill: #eef0ee; }
 .svg-house { fill: #d9d9d9; }
 .svg-house-text { fill: #6b6b6b; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; font-family: var(--ff); }
@@ -427,7 +435,7 @@ fieldset.field legend { padding: 0; margin-bottom: 8px; }
 .section-dark .disclaimer { color: #9a9a9a; }
 
 /* ---------- Multi-step lead form ---------- */
-.lead-card { padding: 30px; }
+.lead-card { padding: 30px; min-width: 0; }
 .lead-progress {
   height: 6px;
   background: var(--line);
@@ -489,8 +497,8 @@ fieldset.field legend { padding: 0; margin-bottom: 8px; }
 .field-hint { font-size: 0.85rem; color: var(--muted); margin-top: 10px; }
 .field-hint a { color: var(--red); }
 
-.lead-nav { display: flex; gap: 12px; margin-top: 24px; }
-.lead-nav .btn { flex: 1; }
+.lead-nav { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.lead-nav .btn { flex: 1; min-width: 0; white-space: normal; }
 #leadBack { flex: 0 0 auto; }
 
 .lead-success { text-align: center; padding: 20px 0; }
