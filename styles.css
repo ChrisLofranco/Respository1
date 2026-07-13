@@ -99,9 +99,9 @@ img { max-width: 100%; display: block; }
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(13, 13, 13, 0.96);
+  background: var(--red);
   color: #fff;
-  border-bottom: 3px solid var(--red);
+  border-bottom: 3px solid #0d0d0d;
   backdrop-filter: saturate(140%) blur(6px);
 }
 .header-inner {
@@ -149,14 +149,16 @@ img { max-width: 100%; display: block; }
   flex-wrap: wrap;
 }
 .main-nav a {
-  color: #ddd;
+  color: rgba(255, 255, 255, 0.9);
   text-decoration: none;
   font-weight: 600;
   font-size: 0.92rem;
 }
 .main-nav a:hover { color: #fff; }
 
-.header-call { margin-left: 8px; }
+/* Contact button: black so it stands out on the red header */
+.header-call { margin-left: 8px; background: #0d0d0d; border-color: #0d0d0d; color: #fff; }
+.header-call:hover { background: #000; border-color: #000; }
 .header-call .call-label { display: none; }
 
 /* ---------- Hero ---------- */

@@ -12,10 +12,10 @@
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
   /* =========================================================
-     1. DRIVEWAY VISUALIZER + ROUGH ESTIMATE
-     Pricing is a deliberately wide *range*, not a quote.
-     GTA residential asphalt ballpark: ~$9–$15 / sq ft.
-     Curved edges add layout/labour, nudging the range up.
+     1. DRIVEWAY VISUALIZER + ESTIMATE
+     Formula: length × width = square footage, × $3.50/sq ft = price.
+     Curved edges add a small premium for the extra layout/labour.
+     It's a ballpark estimate, not a formal quote.
      ========================================================= */
   var lengthInput = document.getElementById("lengthInput");
   var widthInput = document.getElementById("widthInput");
@@ -25,9 +25,8 @@
   var pathEl = document.getElementById("drivewayPath");
   var dimLabel = document.getElementById("dimLabel");
 
-  var RATE_LOW = 9;   // $/sq ft, low end
-  var RATE_HIGH = 15; // $/sq ft, high end
-  var CURVE_UPLIFT = 1.08; // curved edges ~8% more
+  var RATE = 3.5;          // $/sq ft of asphalt (length × width × 3.5 = price)
+  var CURVE_UPLIFT = 1.10; // curved edges ~10% more for the extra layout/labour
 
   function money(n) {
     // round to nearest $10 so it clearly reads as a ballpark
@@ -104,11 +103,10 @@
 
     var area = len * wid;
     var uplift = edge === "curved" ? CURVE_UPLIFT : 1;
-    var low = area * RATE_LOW * uplift;
-    var high = area * RATE_HIGH * uplift;
+    var price = area * RATE * uplift; // length × width × $3.50 (× curved premium)
 
     if (areaOut) areaOut.textContent = area.toLocaleString("en-CA") + " sq ft";
-    if (priceOut) priceOut.textContent = money(low) + " – " + money(high);
+    if (priceOut) priceOut.textContent = money(price);
 
     drawDriveway(len, wid, edge);
   }
@@ -271,51 +269,116 @@
     chatBody.scrollTop = chatBody.scrollHeight;
   }
 
-  // Rule-based intents. First match wins; falls back to a call-to-action.
+  // Rule-based knowledge base. Ordered most-specific → most-general; first
+  // keyword hit wins. Each answer is written to actually answer the question.
   var CHAT_INTENTS = [
     {
-      keys: ["price", "pricing", "cost", "charge", "quote", "estimate", "how much", "$", "rate"],
-      reply: "Every job is priced on-site, but you can get a ballpark right now: use the driveway estimator on this page for a rough price range. For a real quote, tap “Get a rough estimate” or call 416-275-9479 and Tony or Jason will take a look."
+      keys: ["hello", "hi ", "hey", "good morning", "good afternoon", "good evening", "how are you"],
+      reply: "Hey there! 👋 I can answer questions about pricing, our services, timelines, how asphalt holds up, our service area, and booking an estimate. What can I help you with?"
     },
     {
-      keys: ["area", "areas", "where", "serve", "servicing", "location", "toronto", "mississauga", "vaughan", "brampton", "markham", "scarborough", "gta", "near me"],
-      reply: "We're based in Brampton and pave right across the Greater Toronto Area — Toronto, Vaughan, Mississauga, Markham, Scarborough, Etobicoke, Oakville, Richmond Hill, Ajax, Pickering and more. Tell me your city and I can confirm."
+      keys: ["thank", "thanks", "appreciate", "cheers"],
+      reply: "You're welcome! Anything else I can help you with?"
     },
     {
-      keys: ["service", "services", "offer", "do you do", "what do you", "residential", "commercial", "line paint", "snow", "plow", "driveway", "parking"],
-      reply: "We handle residential paving, commercial paving, commercial snow removal, and line painting — all asphalt. Which one are you looking into?"
+      keys: ["bye", "goodbye", "see ya", "that's all", "thats all", "nothing else"],
+      reply: "Thanks for stopping by! Reach us anytime at 416-275-9479, or on our direct lines 647-668-3901 and 647-326-3296. Have a great day."
     },
     {
-      keys: ["hour", "hours", "open", "time", "when are you", "days"],
-      reply: "We're reachable 7 days a week, 7am–7pm. Call 416-275-9479 anytime in that window."
+      keys: ["financing", "finance", "payment plan", "pay", "payment", "deposit", "cash", "cheque", "credit"],
+      reply: "We go over payment details when we give you your quote — just reach out and we'll walk you through it. (Note: we don't offer financing plans.)"
     },
     {
-      keys: ["phone", "call", "number", "contact", "reach", "talk to", "email"],
-      reply: "Easiest way to reach us is by phone: 416-275-9479, 7 days a week, 7am–7pm. You can also fill out the quick quote form on this page."
+      keys: ["how much", "price", "pricing", "cost", "charge", "quote", "rate", "per square", "per sq", "expensive", "$", "ballpark"],
+      reply: "We estimate asphalt at about $3.50 per square foot: length × width gives your square footage, then × $3.50 is your ballpark. Example: a 40 × 16 ft driveway is 640 sq ft, so roughly $2,240. Try the Driveway Visualizer on this page for your exact size — it's an estimate, and Tony or Jason confirm the final price on-site."
     },
     {
-      keys: ["book", "schedule", "timeline", "how long", "when can", "start", "availability", "wait"],
-      reply: "Timing depends on crew routing and the size of the job, so we don't lock in a date until we've seen the site. Send us the details through the quote form or call 416-275-9479 and we'll walk you through next steps."
+      keys: ["estimator", "estimate", "calculator", "visualizer", "the tool", "how do i use", "measure"],
+      reply: "Scroll up to the “Driveway Visualizer & rough estimate” section — enter your driveway's length and width, pick straight or curved edges, and it instantly shows a shape preview plus an estimated price (about $3.50/sq ft). For a firm number, tap “Get a real quote” and we'll come take a look."
     },
     {
-      keys: ["interlock", "sealcoat", "seal coat", "sealing", "paver", "concrete", "stone"],
-      reply: "We specialize in asphalt — driveways, lots, line painting, and snow removal. That focus is exactly why the asphalt work comes out clean. Happy to talk through your asphalt project any time."
+      keys: ["snow", "plow", "plowing", "salt", "winter clear", "de-ice", "deice"],
+      reply: "Yes — we offer commercial snow removal: seasonal plowing and clearing to keep your lot open and safe all winter. Call us to set up a seasonal contract for your property."
     },
     {
-      keys: ["owner", "who", "tony", "jason", "experience", "trust", "licensed", "insured"],
-      reply: "The company is owner-operated — Tony and Jason are hands-on and on-site for every job, from grading and base prep to the finished surface."
+      keys: ["line paint", "line-paint", "striping", "stall", "markings", "fire route", "parking line"],
+      reply: "We do line painting for commercial lots — parking stalls, fire routes, and directional markings, whether it's a fresh layout or a refresh of faded lines."
+    },
+    {
+      keys: ["how long does it take", "how long will", "timeline", "how many days", "duration", "take to", "finish the", "complete the"],
+      reply: "Most residential driveways are completed in a single day once we start. Bigger or commercial jobs can take longer. Exact scheduling depends on crew routing and weather, so we confirm timing after seeing the site."
+    },
+    {
+      keys: ["drive on", "park on", "cure", "curing", "walk on", "how long before", "harden", "ready to use", "dry"],
+      reply: "You can usually walk on fresh asphalt within a few hours and drive on it after about 24–48 hours. For the first couple of weeks, try not to park in the exact same spot or turn your wheels while stopped, as it's still hardening."
+    },
+    {
+      keys: ["how long does asphalt last", "lifespan", "last for", "how long will it last", "durable", "how many years", "longevity"],
+      reply: "A properly installed asphalt driveway typically lasts 15–20+ years with basic upkeep. Good drainage and sealing small cracks early are the two biggest things that extend its life — there are free tips in our maintenance guide on this page."
+    },
+    {
+      keys: ["crack", "pothole", "repair", "patch", "fix", "damage", "worn", "resurface", "overlay"],
+      reply: "We can assess cracks, potholes, and worn surfaces. Small cracks are worth sealing early before water and freeze-thaw widen them. Send us a photo or call and we'll advise whether a patch, resurface, or full replacement makes the most sense."
+    },
+    {
+      keys: ["interlock", "sealcoat", "seal coat", "sealing", "paver", "pavers", "stone", "concrete", "brick"],
+      reply: "We focus purely on asphalt — driveways, lots, line painting, and snow removal. That specialization is exactly why the asphalt work comes out clean and holds up. Happy to talk through any asphalt project."
+    },
+    {
+      keys: ["process", "steps", "how do you", "base", "prep", "gravel", "material", "hot mix", "what kind of asphalt"],
+      reply: "For a driveway we grade the area, prep and compact a solid granular base, then lay and roll hot-mix asphalt for a smooth surface with clean edges that sheds water. The base prep is what makes it last, so we don't cut corners there."
+    },
+    {
+      keys: ["residential", "my driveway", "new driveway", "repave", "replace my", "home driveway"],
+      reply: "Residential driveways are our main focus — new installs and full replacements. We handle grading, base prep, and a smooth rolled asphalt finish, usually in a day. Use the estimator on this page for a ballpark, or call for an on-site quote."
+    },
+    {
+      keys: ["commercial", "parking lot", "lot", "business", "plaza", "property manager", "laneway", "access road"],
+      reply: "We handle commercial paving — parking lots, laneways, and access roads built for real traffic and loads — plus line painting and seasonal snow removal for commercial properties. Call us and we'll arrange a site visit."
+    },
+    {
+      keys: ["service", "services", "offer", "do you do", "what do you", "what can you", "kind of work", "type of work"],
+      reply: "We handle four things, all asphalt: residential paving, commercial paving, commercial snow removal, and line painting. Which one are you interested in?"
+    },
+    {
+      keys: ["area", "areas", "where", "serve", "servicing", "location", "gta", "near me", "toronto", "mississauga", "vaughan", "brampton", "markham", "scarborough", "oakville", "richmond hill", "etobicoke", "ajax", "pickering", "maple", "come to"],
+      reply: "We're based in Brampton and work right across the Greater Toronto Area — Toronto, Vaughan, Mississauga, Brampton, Maple, Oakville, Richmond Hill, Markham, Scarborough, Etobicoke, Ajax, Pickering and other GTA municipalities. Tell me your city and I'll confirm."
+    },
+    {
+      keys: ["book", "schedule", "appointment", "free estimate", "come out", "site visit", "get started", "sign up", "set up", "when can you"],
+      reply: "Happy to set up a free on-site estimate. Fill out the quick quote form on this page (service → size → timeline → contact) or call us, and we'll arrange a time to come take a look."
+    },
+    {
+      keys: ["hour", "hours", "open", "when are you open", "what time", "days", "weekend", "sunday", "saturday"],
+      reply: "We're reachable 7 days a week, 7am–7pm — including weekends."
+    },
+    {
+      keys: ["phone", "call", "number", "contact", "reach", "talk to", "speak", "email", "get a hold"],
+      reply: "You can reach us at 416-275-9479, or on our direct lines 647-668-3901 and 647-326-3296 — 7 days a week, 7am–7pm. You can also fill out the quick quote form on this page and we'll follow up."
+    },
+    {
+      keys: ["weather", "season", "best time", "rain", "cold", "temperature", "time of year", "spring", "fall", "summer"],
+      reply: "Asphalt goes down best in warmer, dry conditions, so most paving runs spring through fall. We watch the forecast and won't lay asphalt in poor weather, since conditions affect the final finish."
+    },
+    {
+      keys: ["warranty", "guarantee", "guaranteed", "stand behind"],
+      reply: "We stand behind our work and take pride in a clean, lasting finish. For specifics on any workmanship guarantee for your job, give us a call and Tony or Jason will go over it with you."
+    },
+    {
+      keys: ["owner", "who are you", "who runs", "tony", "jason", "experience", "trust", "reliable", "licensed", "insured", "why choose", "why should"],
+      reply: "Woodbine Paving is owner-operated — Tony and Jason are hands-on and on-site for every job, from base prep to the finished surface. Customers regularly mention clear communication and a crew that shows up on time."
     }
   ];
 
   function botReply(text) {
-    var q = text.toLowerCase();
+    var q = " " + text.toLowerCase() + " ";
     for (var i = 0; i < CHAT_INTENTS.length; i++) {
       var intent = CHAT_INTENTS[i];
       for (var j = 0; j < intent.keys.length; j++) {
         if (q.indexOf(intent.keys[j]) !== -1) return intent.reply;
       }
     }
-    return "Good question — the fastest way to get that answered is to call Tony or Jason at 416-275-9479, or leave your details on the quote form and we'll follow up. You can also ask me about services, service area, pricing, or hours.";
+    return "I'm not certain on that specific one, but I can help with pricing, our services, timelines, how asphalt holds up, our service area, or booking an estimate — just ask. You can also reach us directly at 416-275-9479, 647-668-3901, or 647-326-3296.";
   }
 
   function handleUserMessage(text) {
