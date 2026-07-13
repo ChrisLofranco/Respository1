@@ -13,9 +13,9 @@
 
   /* =========================================================
      1. DRIVEWAY VISUALIZER + ESTIMATE
-     Formula: length × width = square footage, × $3.50/sq ft = price.
-     Curved edges add a small premium for the extra layout/labour.
-     It's a ballpark estimate, not a formal quote.
+     Base formula: length × width = square footage, × $3.50/sq ft.
+     Shown as a ±15% range around that base (curved edges add a small
+     premium). It's a ballpark estimate, not a formal quote.
      ========================================================= */
   var lengthInput = document.getElementById("lengthInput");
   var widthInput = document.getElementById("widthInput");
@@ -25,12 +25,13 @@
   var pathEl = document.getElementById("drivewayPath");
   var dimLabel = document.getElementById("dimLabel");
 
-  var RATE = 3.5;          // $/sq ft of asphalt (length × width × 3.5 = price)
+  var RATE = 3.5;          // $/sq ft of asphalt (length × width × 3.5 = base)
   var CURVE_UPLIFT = 1.10; // curved edges ~10% more for the extra layout/labour
+  var SPREAD = 0.15;       // ±15% band around the formula → a price *range*, not a fixed number
 
   function money(n) {
-    // round to nearest $10 so it clearly reads as a ballpark
-    var r = Math.round(n / 10) * 10;
+    // round to nearest $100 so the range reads as a clean ballpark
+    var r = Math.round(n / 100) * 100;
     return "$" + r.toLocaleString("en-CA");
   }
 
@@ -103,10 +104,12 @@
 
     var area = len * wid;
     var uplift = edge === "curved" ? CURVE_UPLIFT : 1;
-    var price = area * RATE * uplift; // length × width × $3.50 (× curved premium)
+    var base = area * RATE * uplift; // length × width × $3.50 (× curved premium)
+    var low = base * (1 - SPREAD);
+    var high = base * (1 + SPREAD);
 
     if (areaOut) areaOut.textContent = area.toLocaleString("en-CA") + " sq ft";
-    if (priceOut) priceOut.textContent = money(price);
+    if (priceOut) priceOut.textContent = money(low) + " – " + money(high);
 
     drawDriveway(len, wid, edge);
   }
