@@ -11,6 +11,34 @@
   var yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  /* ---------- Mobile menu (hamburger) ---------- */
+  var navToggle = document.getElementById("navToggle");
+  var mainNav = document.getElementById("mainNav");
+  if (navToggle && mainNav) {
+    function setMenu(open) {
+      mainNav.classList.toggle("open", open);
+      navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    }
+    navToggle.addEventListener("click", function () {
+      setMenu(!mainNav.classList.contains("open"));
+    });
+    // Close after tapping a link
+    mainNav.querySelectorAll("a").forEach(function (a) {
+      a.addEventListener("click", function () { setMenu(false); });
+    });
+    // Close on Escape or when tapping outside the header
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") setMenu(false);
+    });
+    document.addEventListener("click", function (e) {
+      if (mainNav.classList.contains("open") &&
+          !mainNav.contains(e.target) && !navToggle.contains(e.target)) {
+        setMenu(false);
+      }
+    });
+  }
+
   /* =========================================================
      1. DRIVEWAY VISUALIZER + ESTIMATE
      Base formula: length × width = square footage, × $3.50/sq ft.

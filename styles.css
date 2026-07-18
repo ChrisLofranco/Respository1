@@ -164,6 +164,38 @@ img { max-width: 100%; display: block; }
 .header-call:hover { background: #000; border-color: #000; }
 .header-call .call-label { display: none; }
 
+/* Hamburger toggle — hidden on desktop, shown on mobile */
+.nav-toggle {
+  display: none;
+  margin-left: 10px;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 9px;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+.nav-toggle-bars,
+.nav-toggle-bars::before,
+.nav-toggle-bars::after {
+  content: "";
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.nav-toggle-bars { position: relative; }
+.nav-toggle-bars::before { position: absolute; top: -7px; left: 0; }
+.nav-toggle-bars::after { position: absolute; top: 7px; left: 0; }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bars { background: transparent; }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bars::before { transform: translateY(7px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bars::after { transform: translateY(-7px) rotate(-45deg); }
+
 /* ---------- Hero ---------- */
 .hero {
   position: relative;
@@ -771,7 +803,31 @@ fieldset.field legend { padding: 0; margin-bottom: 8px; }
   .estimator { grid-template-columns: 1fr; }
   .estimator-preview { position: static; }
   .area-list { grid-template-columns: repeat(3, 1fr); }
-  .main-nav { display: none; }
+
+  /* Mobile menu: hamburger reveals the nav as a dropdown under the header */
+  .nav-toggle { display: inline-flex; }
+  .header-call { margin-left: auto; }
+  .main-nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    margin-left: 0;
+    background: var(--red);
+    border-bottom: 3px solid #0d0d0d;
+    box-shadow: var(--shadow-lg);
+    padding: 6px 22px 14px;
+  }
+  .main-nav.open { display: flex; }
+  .main-nav a {
+    padding: 13px 2px;
+    font-size: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  }
+  .main-nav a:last-child { border-bottom: 0; }
 }
 @media (max-width: 760px) {
   .grid-3 { grid-template-columns: 1fr; }
