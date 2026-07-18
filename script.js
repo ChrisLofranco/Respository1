@@ -11,6 +11,53 @@
   var yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  /* =========================================================
+     LEAD DELIVERY
+     Paste your free Web3Forms access key (https://web3forms.com — "Create
+     Access Key", takes 30 seconds) below to start receiving leads by email.
+     Leave it "" and the site runs in demo mode (logs to the console only).
+     ========================================================= */
+  var WEB3FORMS_ACCESS_KEY = ""; // <-- paste key here to go live
+
+  // Fire a GA4 / dataLayer event if analytics is present (safe no-op otherwise)
+  function track(name, params) {
+    try { if (typeof window.gtag === "function") window.gtag("event", name, params || {}); } catch (e) {}
+    try { (window.dataLayer = window.dataLayer || []).push(assign({ event: name }, params || {})); } catch (e) {}
+  }
+
+  function assign(target, src) {
+    for (var k in src) { if (Object.prototype.hasOwnProperty.call(src, k)) target[k] = src[k]; }
+    return target;
+  }
+
+  // Send a lead to Web3Forms. Returns a Promise. Demo mode when no key is set.
+  function sendLead(payload) {
+    if (!WEB3FORMS_ACCESS_KEY) {
+      // eslint-disable-next-line no-console
+      console.log("[Woodbine Paving] Lead captured (demo — set WEB3FORMS_ACCESS_KEY to send):", payload);
+      return Promise.resolve({ demo: true });
+    }
+    var body = assign({
+      access_key: WEB3FORMS_ACCESS_KEY,
+      from_name: "Woodbine Paving website"
+    }, payload);
+    return fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(body)
+    }).then(function (r) { return r.json(); }).then(function (json) {
+      if (!json.success) throw new Error(json.message || "submit failed");
+      return json;
+    });
+  }
+
+  // Attribution: track every click-to-call (website + sticky bar)
+  Array.prototype.forEach.call(document.querySelectorAll('a[href^="tel:"]'), function (a) {
+    a.addEventListener("click", function () {
+      track("click_to_call", { location: a.getAttribute("data-cta") || "link" });
+    });
+  });
+
   /* ---------- Mobile menu (hamburger) ---------- */
   var navToggle = document.getElementById("navToggle");
   var mainNav = document.getElementById("mainNav");
@@ -154,6 +201,46 @@
     update(); // initial render
   }
 
+  // Estimator lead capture: "text/email me this estimate" → send at peak intent
+  var estForm = document.getElementById("estimatorForm");
+  var estContact = document.getElementById("estContact");
+  var estCaptureMsg = document.getElementById("estCaptureMsg");
+  var estCaptureBtn = document.getElementById("estCaptureBtn");
+  if (estForm) {
+    estForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var contact = estContact ? estContact.value.trim() : "";
+      if (!contact) { if (estContact) estContact.focus(); return; }
+      var payload = {
+        subject: "Driveway estimate request (website tool)",
+        lead_type: "Estimate request from driveway visualizer",
+        contact: contact,
+        dimensions: (lengthInput ? lengthInput.value : "") + " x " + (widthInput ? widthInput.value : "") + " ft",
+        area: areaOut ? areaOut.textContent : "",
+        edge_style: getEdge(),
+        estimate_range: priceOut ? priceOut.textContent : ""
+      };
+      if (estCaptureBtn) { estCaptureBtn.disabled = true; estCaptureBtn.textContent = "Sending…"; }
+      sendLead(payload).then(function () {
+        track("generate_lead", { form: "estimator" });
+        if (estContact) estContact.value = "";
+        if (estCaptureMsg) {
+          estCaptureMsg.hidden = false;
+          estCaptureMsg.style.color = "#35c759";
+          estCaptureMsg.textContent = "Sent! We'll be in touch with your estimate.";
+        }
+      }).catch(function () {
+        if (estCaptureMsg) {
+          estCaptureMsg.hidden = false;
+          estCaptureMsg.style.color = "#ff8a8a";
+          estCaptureMsg.textContent = "Couldn't send — please call 416-275-9479.";
+        }
+      }).then(function () {
+        if (estCaptureBtn) { estCaptureBtn.disabled = false; estCaptureBtn.textContent = "Send it"; }
+      });
+    });
+  }
+
   /* =========================================================
      2. MULTI-STEP LEAD FORM
      ========================================================= */
@@ -229,27 +316,40 @@
       }
     });
 
+    var leadErr = document.getElementById("leadError");
+    var honeypot = document.getElementById("leadHoneypot");
+
     leadForm.addEventListener("submit", function (e) {
       e.preventDefault();
       if (!validateStep(current)) return;
+      if (honeypot && honeypot.value) return; // bot — silently drop
 
       var data = {};
       new FormData(leadForm).forEach(function (v, k) { data[k] = v; });
+      delete data._gotcha;
+      data.subject = "New quote request — " + (data.service || "Paving");
 
-      // Demo only — no backend. Wire this to email/CRM or a form endpoint.
-      leadForm.hidden = true;
-      var progress = leadForm.previousElementSibling;
-      if (successEl) {
-        successEl.hidden = false;
-        var msg = document.getElementById("leadSuccessMsg");
-        if (msg && data.name) {
-          msg.innerHTML = "Thanks, " + escapeHtml(data.name.split(" ")[0]) +
-            " — we'll be in touch shortly. Need us sooner? Call " +
-            '<a href="tel:+14162759479">416-275-9479</a>.';
+      if (leadErr) leadErr.hidden = true;
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Sending…"; }
+
+      sendLead(data).then(function (res) {
+        track("generate_lead", { form: "multi_step", service: data.service });
+        leadForm.hidden = true;
+        if (successEl) {
+          successEl.hidden = false;
+          var msg = document.getElementById("leadSuccessMsg");
+          if (msg && data.name) {
+            msg.innerHTML = "Thanks, " + escapeHtml(String(data.name).split(" ")[0]) +
+              " — we'll be in touch shortly. Need us sooner? Call " +
+              '<a href="tel:+14162759479">416-275-9479</a>.';
+          }
+          var demoNote = document.getElementById("leadDemoNote");
+          if (demoNote && res && !res.demo) demoNote.hidden = true;
         }
-      }
-      // eslint-disable-next-line no-console
-      console.log("[Woodbine Paving] Lead captured (demo, not sent):", data);
+      }).catch(function () {
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "Send to Tony & Jason"; }
+        if (leadErr) leadErr.hidden = false;
+      });
     });
 
     showStep(0);

@@ -146,9 +146,10 @@
         hands-on and on-site for every job, start to finish.
       </p>
       <div class="hero-actions">
-        <a href="#estimator" class="btn btn-red btn-lg">Get a rough estimate</a>
-        <a href="tel:+14162759479" class="btn btn-ghost btn-lg">Call 416-275-9479</a>
+        <a href="tel:+14162759479" class="btn btn-red btn-lg">Call 416-275-9479</a>
+        <a href="#estimator" class="btn btn-ghost btn-lg">Get an instant estimate</a>
       </div>
+      <p class="reply-promise"><span class="reply-dot" aria-hidden="true"></span> We reply within 15 minutes &bull; 7 days a week, 7am–7pm</p>
       <ul class="hero-trust">
         <li>Asphalt specialists</li>
         <li>Residential &amp; commercial</li>
@@ -166,6 +167,23 @@
         <p>Use our free driveway estimator — enter your size and get a ballpark price range in seconds. No calls, no commitment.</p>
       </div>
       <a href="#estimator" class="btn btn-lg teaser-btn">Try the estimator &rarr;</a>
+    </div>
+  </section>
+
+  <!-- ============ TRUST BAR ============ -->
+  <section class="trust-bar" aria-label="Why choose Woodbine Paving">
+    <div class="container trust-bar-inner">
+      <span class="trust-badge">✓ Asphalt specialists</span>
+      <span class="trust-badge">✓ Owner-operated</span>
+      <span class="trust-badge">✓ Residential &amp; commercial</span>
+      <span class="trust-badge">✓ Open 7 days · 7am–7pm</span>
+      <span class="trust-badge">✓ Serving the GTA</span>
+      <!-- CONFIRM THEN ENABLE (needs owner sign-off — do not claim unverified):
+      <span class="trust-badge">✓ Licensed &amp; insured</span>
+      <span class="trust-badge">✓ WSIB registered</span>
+      <span class="trust-badge">✓ 20+ years in business</span>
+      <span class="trust-badge">✓ 4★+ rated</span>
+      -->
     </div>
   </section>
 
@@ -249,6 +267,15 @@
           </div>
 
           <a href="#lead" class="btn btn-red btn-lg btn-block" id="estToLead">Get a real quote from Tony &amp; Jason</a>
+
+          <div class="est-capture">
+            <label for="estContact">Want this estimate texted or emailed to you?</label>
+            <div class="est-capture-row">
+              <input type="text" id="estContact" name="contact" placeholder="Phone or email" autocomplete="tel" />
+              <button type="submit" class="btn btn-ghost" id="estCaptureBtn">Send it</button>
+            </div>
+            <p class="est-capture-msg" id="estCaptureMsg" hidden></p>
+          </div>
         </form>
 
         <div class="estimator-preview">
@@ -349,18 +376,22 @@
             </div>
           </fieldset>
 
+          <!-- Honeypot: real users never fill this; bots do -->
+          <input type="text" name="_gotcha" id="leadHoneypot" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
           <div class="lead-nav">
             <button type="button" class="btn btn-ghost" id="leadBack" hidden>Back</button>
             <button type="button" class="btn btn-red" id="leadNext">Next</button>
             <button type="submit" class="btn btn-red" id="leadSubmit" hidden>Send to Tony &amp; Jason</button>
           </div>
+          <p class="lead-error" id="leadError" hidden>Something went wrong sending that. Please call <a href="tel:+14162759479">416-275-9479</a>.</p>
         </form>
 
         <div class="lead-success" id="leadSuccess" hidden>
           <div class="success-check" aria-hidden="true">✓</div>
           <h3>Got it — thanks!</h3>
           <p id="leadSuccessMsg">We'll be in touch shortly. Need us sooner? Call <a href="tel:+14162759479">416-275-9479</a>.</p>
-          <p class="note-inline">Note: this demo form doesn't send anywhere yet — connect it to your email/CRM or a form backend before launch.</p>
+          <p class="note-inline" id="leadDemoNote">Setup note: add your free Web3Forms access key in <code>script.js</code> (<code>WEB3FORMS_ACCESS_KEY</code>) to start receiving these leads by email. Until then, submissions are logged to the browser console only.</p>
         </div>
       </div>
     </div>
@@ -545,6 +576,12 @@
       <p>&copy; <span id="year"></span> Woodbine Paving. All rights reserved.</p>
     </div>
   </footer>
+
+  <!-- ============ STICKY MOBILE CALL BAR (mobile only) ============ -->
+  <div class="mobile-cta-bar" aria-label="Quick contact">
+    <a href="tel:+14162759479" class="mcta mcta-call" data-cta="call">📞 Call now</a>
+    <a href="#lead" class="mcta mcta-quote" data-cta="quote">Get a quote</a>
+  </div>
 
   <!-- ============ LIVE CHAT WIDGET (MOCK) ============ -->
   <div class="chat-widget" id="chatWidget">
